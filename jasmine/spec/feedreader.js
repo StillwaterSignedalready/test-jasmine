@@ -25,11 +25,26 @@ $(function() {
         /* TODO:
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有链接字段而且链接不是空的。
          */
-
+         it('every feed has url', function(){
+            let len = allFeeds.length;
+            let everyHas = true;
+            for(let i = 0; i < len; i++){
+                everyHas = everyHas && !!(allFeeds[i].url);
+            }
+            expect(everyHas).toBe(true);
+         })
 
         /* TODO:
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有名字字段而且不是空的。
          */
+         it('every feed has name', function(){
+            let len = allFeeds.length;
+            let everyHas = true;
+            for(let i = 0; i < len; i++){
+                everyHas = everyHas && !!(allFeeds[i].name);
+            }
+            expect(everyHas).toBe(true);
+         })
     });
 
 
