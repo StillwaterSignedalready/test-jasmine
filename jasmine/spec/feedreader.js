@@ -105,12 +105,10 @@ $(function() {
         beforeEach(function(done){
             loadFeed(1 ,function(){
                 first = $('.entry h2').html();
-                console.log(first);
                 done();
             })
             loadFeed(2 ,function(){
                 second = $('.entry h2').html();
-                console.log(second);
                 done();
             })
         });
