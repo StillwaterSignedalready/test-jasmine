@@ -6,6 +6,10 @@
 /* 我们把所有的测试都放在了 $() 函数里面。因为有些测试需要 DOM 元素。
  * 我们得保证在 DOM 准备好之前他们不会被运行。
  */
+
+// 调节超时上限
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 $(function() {
     /* 这是我们第一个测试用例 - 其中包含了一定数量的测试。这个用例的测试
      * 都是关于 Rss 源的定义的，也就是应用中的 allFeeds 变量。
@@ -28,7 +32,9 @@ $(function() {
          it('every feed has url', function(){
             let len = allFeeds.length;
             let everyHas = true;
+            let regularExpressionUrl = /^((ht|f)tps?):\/\/([\w\-]+(\.[\w\-]+)*\/)*[\w\-]+(\.[\w\-]+)*\/?(\?([\w\-\.,@?^=%&:\/~\+#]*)+)?/; 
             for(let i = 0; i < len; i++){
+                expect(allFeeds[i].url).toMatch(regularExpressionUrl);
                 everyHas = everyHas && !!(allFeeds[i].url);
             }
             expect(everyHas).toBe(true);
@@ -55,7 +61,7 @@ $(function() {
          * 来搞清楚我们是怎么实现隐藏/展示菜单元素的。
          */
          it('hide slide menu', function(){
-            expect($('body').prop('class')).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
          })
          /* TODO:
           * 写一个测试用例保证当菜单图标被点击的时候菜单会切换可见状态。这个
@@ -87,14 +93,12 @@ $(function() {
          * 和异步的 done() 函数。
          */
         beforeEach(function(done){
-            loadFeed(0 ,function(){
-                done();
-            })
+            console.log('done',done);
+            loadFeed(0 ,done);
         });
 
-        it('loadFeed work', function(done){
+        it('loadFeed work', function(){
             expect(!!$('.feed').find('.entry')).toBe(true);
-            done();
         })
     });
 
@@ -105,17 +109,18 @@ $(function() {
         beforeEach(function(done){
             loadFeed(1 ,function(){
                 first = $('.entry h2').html();
-                done();
-            })
-            loadFeed(2 ,function(){
-                second = $('.entry h2').html();
-                done();
+                console.log('first ', first);
+                loadFeed(0 ,function(){
+                    second = $('.entry h2').html();
+                    console.log('second ', second);
+                    done();
+                })
             })
         });
 
-        it('change content', function(done){
+        it('change content', function(){
+            console.log(first, second);
             expect(first == second).toBe(false);
-            done();
-        })
+        });
     })
 }());
