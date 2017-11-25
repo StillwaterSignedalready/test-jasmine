@@ -75,10 +75,10 @@ $(function() {
             event.initMouseEvent('click',true,true,document.defaultView,0,0,0,0,0,false,false,false,false,0,null);
             
             icon.dispatchEvent(event);
-            expect($('body').prop('class')).not.toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(false);
 
             icon.dispatchEvent(event);
-            expect($('body').prop('class')).toBe('menu-hidden');
+            expect($('body').hasClass('menu-hidden')).toBe(true);
         })
     })
 
